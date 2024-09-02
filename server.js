@@ -23,8 +23,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 // Serve static files (profile images)
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
-
+app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
+console.log(path.join(__dirname, "../uploads"));
 // routes
 
 // Auth routes
@@ -156,7 +156,13 @@ app.post("/api/login", errorHandler, async (req, res, next) => {
     return next(error);
   }
 });
-// Auth routes
+
+app.post("/api/logout", (req, res) => {
+    res.clearCookie("refreshToken")
+    res.clearCookie("accessToken")
+    res.status(200).json({message: "Logged out"})
+})
+// Auth routess
 
 // error middleware REMEMBER TO IMPORT IT
 app.use(errorHandler);
