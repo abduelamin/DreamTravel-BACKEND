@@ -1,3 +1,7 @@
+import dotenv from "dotenv";
+import jwt from "jsonwebtoken";
+dotenv.config();
+
 export const authorize = (req, res, next) => {
 
     const accessToken = req.cookies.accessToken
@@ -10,7 +14,9 @@ try {
     next()
 
 } catch (error) {
+    console.error('Authorization failed:', error);
     res.clearCookie('accessToken')
+    return res.status(401).json({ message: "Unauthorized as token is missing" });
 }
     
 } 
