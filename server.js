@@ -11,6 +11,7 @@ import dotenv from "dotenv";
 import { errorHandler } from "./middleware/erroHandler.js";
 import { createListing } from "./controllers/createListing.js";
 import { homepageListings } from "./controllers/listings.js";
+import { listingDetails } from "./controllers/listingDetails.js";
 
 const app = express();
 dotenv.config();
@@ -175,6 +176,10 @@ app.post('/api/create-listing', authorize, upload.array('photos', 10), createLis
 
 app.get('/api/listings', homepageListings)
 
+
+// Fetching listing details for a particular property
+
+app.get('/api/properties/:listingId', listingDetails)
 
 // error middleware REMEMBER TO IMPORT IT
 app.use(errorHandler);
