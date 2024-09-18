@@ -75,3 +75,15 @@ CREATE TABLE listings (
     bathrooms INT DEFAULT 1,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE bookings (
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES "user"(user_id) ON DELETE CASCADE,  -- The customer making the booking
+    listing_id INT REFERENCES listings(id) ON DELETE CASCADE,  -- The listing being booked
+    start_date DATE NOT NULL,                                  -
+    end_date DATE NOT NULL,                                    
+    total_price DECIMAL(10, 2) NOT NULL,                       
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP             
+);
+
+

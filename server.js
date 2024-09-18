@@ -12,7 +12,7 @@ import { errorHandler } from "./middleware/erroHandler.js";
 import { createListing } from "./controllers/createListing.js";
 import { homepageListings } from "./controllers/listings.js";
 import { listingDetails } from "./controllers/listingDetails.js";
-
+import bookingRoutes from "./routes/booking.js"
 const app = express();
 dotenv.config();
 app.use(
@@ -181,6 +181,9 @@ app.get('/api/listings', homepageListings)
 
 app.get('/api/properties/:listingId', listingDetails)
 
+// Booking routes
+
+app.use("/api", bookingRoutes)
 // error middleware REMEMBER TO IMPORT IT
 app.use(errorHandler);
 
