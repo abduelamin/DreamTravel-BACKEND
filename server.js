@@ -13,6 +13,7 @@ import { createListing } from "./controllers/createListing.js";
 import { homepageListings } from "./controllers/listings.js";
 import { listingDetails } from "./controllers/listingDetails.js";
 import bookingRoutes from "./routes/booking.js"
+import watchlist from "./routes/watchlist.js"
 const app = express();
 dotenv.config();
 app.use(
@@ -182,8 +183,11 @@ app.get('/api/listings', homepageListings)
 app.get('/api/properties/:listingId', listingDetails)
 
 // Booking routes
-
 app.use("/api", bookingRoutes)
+
+// Watchlist route
+app.use("/api", watchlist)
+
 // error middleware REMEMBER TO IMPORT IT
 app.use(errorHandler);
 
