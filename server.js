@@ -14,6 +14,7 @@ import { homepageListings } from "./controllers/listings.js";
 import { listingDetails } from "./controllers/listingDetails.js";
 import bookingRoutes from "./routes/booking.js"
 import watchlist from "./routes/watchlist.js"
+import properties from "./routes/userProperties.js"
 const app = express();
 dotenv.config();
 app.use(
@@ -126,7 +127,7 @@ app.post("/api/login", errorHandler, async (req, res, next) => {
         profileImage: user.rows[0].profile_picture_url,
       },
       process.env.JWTKEY,
-      { expiresIn: "15m" }
+      { expiresIn: "1h" }
     );
     
 
@@ -187,6 +188,9 @@ app.use("/api", bookingRoutes)
 
 // Watchlist route
 app.use("/api", watchlist)
+
+// User properties
+app.use('/api', properties)
 
 // error middleware REMEMBER TO IMPORT IT
 app.use(errorHandler);
