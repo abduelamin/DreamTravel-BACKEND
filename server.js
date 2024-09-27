@@ -17,12 +17,14 @@ import watchlist from "./routes/watchlist.js"
 import properties from "./routes/userProperties.js"
 const app = express();
 dotenv.config();
-app.use(
-  cors({
-    origin: "http://localhost:5173",
-    credentials: true,
-  })
-);
+
+const allowedOrigins = ['http://localhost:8000', 'https://dreamnesttravel.netlify.app'];
+
+app.use(cors({
+  origin: allowedOrigins,
+  credentials: true,
+}));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
