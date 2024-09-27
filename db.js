@@ -3,12 +3,11 @@ const { Pool } = pkg;
 
 
 const pool = new Pool({
-    user: "postgres",
-    password: "@Nona1982Attack",
-    database: "elaminestate",
-    host: "localhost",  // This will be the datbaseURL provided by heroku/render
-    port: 5432
-})
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false, // Required for some hosted services like Render
+  },
+});
 
 // Needed for client.query to work.
 export const query = (text, params) => pool.query(text, params);

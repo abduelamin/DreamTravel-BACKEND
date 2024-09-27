@@ -195,6 +195,7 @@ app.use('/api', properties)
 // error middleware REMEMBER TO IMPORT IT
 app.use(errorHandler);
 
-app.listen(8000, (req, res) => {
-  console.log("Server is running on PORT 8000");
+const port = process.env.PORT || 8000;
+app.listen(port, () => {
+  console.log(`Server is running on PORT ${port}`);
 });
