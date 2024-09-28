@@ -4,9 +4,9 @@ const { Pool } = pkg;
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false, // Required for some hosted services like Render
-  },
+  ssl: process.env.NODE_ENV === 'production' 
+       ? { rejectUnauthorized: false } 
+       : false, // Disable SSL in development mode
 });
 
 // Needed for client.query to work.

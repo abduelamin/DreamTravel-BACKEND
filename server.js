@@ -18,6 +18,9 @@ import properties from "./routes/userProperties.js"
 const app = express();
 dotenv.config();
 
+
+console.log("DATABASE_URL:", process.env.DATABASE_URL);
+
 const allowedOrigins = ['http://localhost:8000', 'https://dreamnesttravel.netlify.app'];
 
 app.use(cors({
@@ -146,16 +149,17 @@ app.post("/api/login", errorHandler, async (req, res, next) => {
     );
 
     res.cookie("accessToken", accessToken, {
-      httpOnly: false,
-      secure: false,
-      sameSite: "Strict",
+      httpOnly: false, // Change to true if the frontend doesn't need to access this cookie via JavaScript
+      secure: true,    // Set to true for production, requires HTTPS
+      sameSite: "None" // Change to "None" to allow cross-site usage
     });
-
+    
     res.cookie("refreshToken", refreshToken, {
-      httpOnly: true,
-      secure: false,
-      sameSite: "Strict",
+      httpOnly: true,  // Keep true since refresh tokens should not be accessible via JavaScript
+      secure: true,    // Set to true for production, requires HTTPS
+      sameSite: "None" // Change to "None" to allow cross-site usage
     });
+    
 
     return res.status(200).json({ message: "Login Successful" });
   } catch (error) {
