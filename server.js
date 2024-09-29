@@ -150,13 +150,13 @@ app.post("/api/login", errorHandler, async (req, res, next) => {
 
     res.cookie("accessToken", accessToken, {
       httpOnly: false, // Change to true if the frontend doesn't need to access this cookie via JavaScript
-      secure: true,    // Set to true for production, requires HTTPS
+      // secure: true,    // Set to true for production, requires HTTPS
       sameSite: "None" // Change to "None" to allow cross-site usage
     });
     
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,  // Keep true since refresh tokens should not be accessible via JavaScript
-      secure: true,    // Set to true for production, requires HTTPS
+      // secure: true,    // Set to true for production, requires HTTPS
       sameSite: "None" // Change to "None" to allow cross-site usage
     });
     
