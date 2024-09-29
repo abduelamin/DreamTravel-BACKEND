@@ -24,7 +24,7 @@ console.log("DATABASE_URL:", process.env.DATABASE_URL);
 const allowedOrigins = ['http://localhost:8000', 'https://dreamnesttravel.netlify.app', 'https://dream-travel-five.vercel.app'];
 
 app.use(cors({
-  origin: "https://dream-travel-five.vercel.app",
+  origin: allowedOrigins,
   credentials: true,
 }));
 
