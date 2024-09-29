@@ -21,7 +21,7 @@ dotenv.config();
 
 console.log("DATABASE_URL:", process.env.DATABASE_URL);
 
-const allowedOrigins = ['http://localhost:8000', 'https://dreamnesttravel.netlify.app'];
+const allowedOrigins = ['http://localhost:8000', 'https://dreamnesttravel.netlify.app', 'https://dream-travel-five.vercel.app'];
 
 app.use(cors({
   origin: allowedOrigins,
@@ -150,13 +150,13 @@ app.post("/api/login", errorHandler, async (req, res, next) => {
 
     res.cookie("accessToken", accessToken, {
       httpOnly: false, // Change to true if the frontend doesn't need to access this cookie via JavaScript
-      secure: true,    // Set to true for production, requires HTTPS
+      // secure: true,    // Set to true for production, requires HTTPS
       sameSite: "None" // Change to "None" to allow cross-site usage
     });
     
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,  // Keep true since refresh tokens should not be accessible via JavaScript
-      secure: true,    // Set to true for production, requires HTTPS
+      // secure: true,    // Set to true for production, requires HTTPS
       sameSite: "None" // Change to "None" to allow cross-site usage
     });
     
