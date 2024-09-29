@@ -106,23 +106,16 @@ app.post("/api/login", errorHandler, async (req, res, next) => {
   const { email, password } = req.body;
 
   try {
-    const user = await pool.query('SELECT * FROM "user" WHERE email = $1', [
-      email,
-    ]);
+    const user = await pool.query('SELECT * FROM "user" WHERE email = $1', [email]);
     if (user.rows.length === 0) {
-      const error = new Error("User is not registered");
-      error.status = 401;
-      error.name = "userNotFound";
-      return next(error);
+      return next(createError(401, "User is not registered"));
     }
 
     const validPassword = await bcrypt.compare(password, user.rows[0].password);
     if (!validPassword) {
-      const error = new Error("Email or password is Incorrect");
-      error.status = 403;
-      error.name = "incorrectCredentials";
-      return next(error);
+      return next(createError(403, "Email or password is incorrect"));
     }
+
     const accessToken = jwt.sign(
       {
         id: user.rows[0].user_id,
@@ -134,7 +127,6 @@ app.post("/api/login", errorHandler, async (req, res, next) => {
       process.env.JWTKEY,
       { expiresIn: "1h" }
     );
-    
 
     const refreshToken = jwt.sign(
       {
@@ -148,20 +140,21 @@ app.post("/api/login", errorHandler, async (req, res, next) => {
       { expiresIn: "7d" }
     );
 
+    // Set cookies
     res.cookie("accessToken", accessToken, {
-      httpOnly: false, // Change to true if the frontend doesn't need to access this cookie via JavaScript
-      secure: true,    // Set to true for production, requires HTTPS
-      sameSite: "None" // Change to "None" to allow cross-site usage
+      httpOnly: false,
+      secure: true, 
+      sameSite: "None",
     });
-    
-    res.cookie("refreshToken", refreshToken, {
-      httpOnly: true,  // Keep true since refresh tokens should not be accessible via JavaScript
-      secure: true,    // Set to true for production, requires HTTPS
-      sameSite: "None" // Change to "None" to allow cross-site usage
-    });
-    
 
-    return res.status(200).json({ message: "Login Successful" });
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "None",
+    });
+
+    // Send access token in response for local storage
+    return res.status(200).json({ message: "Login Successful", accessToken });
   } catch (error) {
     console.error(error);
     return next(error);
