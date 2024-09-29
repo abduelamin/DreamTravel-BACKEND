@@ -24,7 +24,7 @@ console.log("DATABASE_URL:", process.env.DATABASE_URL);
 const allowedOrigins = ['http://localhost:8000', 'https://dreamnesttravel.netlify.app', 'https://dream-travel-five.vercel.app'];
 
 app.use(cors({
-  origin: allowedOrigins,
+  origin: "https://dream-travel-five.vercel.app",
   credentials: true,
 }));
 
@@ -155,7 +155,7 @@ app.post("/api/login", errorHandler, async (req, res, next) => {
     });
     
     res.cookie("refreshToken", refreshToken, {
-      httpOnly: false,  // Keep true since refresh tokens should not be accessible via JavaScript
+      httpOnly: true,  // Keep true since refresh tokens should not be accessible via JavaScript
       // secure: true,    // Set to true for production, requires HTTPS
       sameSite: "None" // Change to "None" to allow cross-site usage
     });
