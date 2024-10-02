@@ -32,6 +32,7 @@ export const listingDetails = async (req, res, next) => {
 
     const listing = fetchListing.rows[0];
 
+    console.log("listingsPhoto before parsing:", listing.photos);
     // Normalize the photo paths
     listing.photos = listing.photos.map((photoUrl) => {
       try {
@@ -54,6 +55,7 @@ export const listingDetails = async (req, res, next) => {
         if (match) {
           return `http://localhost:8000/uploads/${match[0]}`;
         }
+        console.log("listingsPhoto After parsing:", listing.photos);
         // Parsing of facilities
         listing.facilities = listing.facilities.map((facility) => {
           try {
