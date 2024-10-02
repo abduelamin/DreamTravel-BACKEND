@@ -47,6 +47,7 @@ export const createListing = async (req, res, next) => {
     const photos = req.files.map(file => `/uploads/${file.filename}`); // Generate file paths
     // const photos = req.files; // Generate file paths with full path link i.e desktop/ we don't want this because then we can't access the photos on our app.
     console.log('photos:', photos);
+    console.log('Uploaded file path:', req.files.map(file => file.path));
     await insertPhotos(client, listingId, photos);
 
   
