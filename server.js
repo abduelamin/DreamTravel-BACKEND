@@ -18,9 +18,6 @@ import properties from "./routes/userProperties.js"
 const app = express();
 dotenv.config();
 
-
-console.log("DATABASE_URL:", process.env.DATABASE_URL);
-
 const allowedOrigins = ['http://localhost:8000', 'https://dreamnesttravel.netlify.app', 'https://dream-travel-five.vercel.app'];
 
 app.use(cors({
@@ -35,6 +32,8 @@ app.use(cookieParser());
 // Serve static files (profile images)
 app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 console.log(path.join(__dirname, "../uploads"));
+console.log('Uploaded file path:', req.files.map(file => file.path));
+
 // routes
 
 // Auth routes
