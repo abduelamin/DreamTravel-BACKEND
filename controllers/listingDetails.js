@@ -32,6 +32,7 @@ export const listingDetails = async (req, res, next) => {
 
     const listing = fetchListing.rows[0];
 
+    console.log(listing.photos);
     // Normalize the photo paths
     listing.photos = listing.photos.map((photoUrl) => {
       try {
