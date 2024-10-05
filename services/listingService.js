@@ -103,4 +103,3 @@ export const insertPhotos = async (client, listingId, photos) => {
   await Promise.all(photoInsertPromises);
 };
 
-// ADD THESE LISIITNG PHOTOS USING Multer. check on the lisiting controller that req.files is correct for the photos etc

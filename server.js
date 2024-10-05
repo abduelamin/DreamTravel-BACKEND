@@ -36,13 +36,51 @@ console.log(path.join(__dirname, "../uploads"));
 // routes
 
 // Auth routes
+// app.post(
+//   "/api/register",
+//   upload.single("profileImage"),
+//   errorHandler,
+//   async (req, res, next) => {
+//     const { firstname, lastname, email, password } = req.body;
+//     const profileImage = req.file ? `/uploads/${req.file.filename}` : null; // Files are not found in req.body
+
+//     try {
+//       const userFromDatabase = await pool.query(
+//         'SELECT * FROM "user" WHERE email = $1',
+//         [email]
+//       );
+
+//       if (userFromDatabase.rows.length !== 0) {
+//         const error = new Error(`User with ${email} already exists`);
+//         error.name = "AlreadyExist";
+//         error.status = 400;
+//         return next(error);
+//       }
+
+//       const salt = await bcrypt.genSalt(10);
+//       const bcryptPassword = await bcrypt.hash(password, salt);
+
+//       await pool.query(
+//         'INSERT INTO "user" (firstname, lastname, email, password, profile_picture_url) VALUES ($1, $2, $3, $4, $5)',
+//         [firstname, lastname, email, bcryptPassword, profileImage]
+//       );
+//       return res.status(201).json({ message: "New User Added" });
+//     } catch (err) {
+//       console.log(err);
+//       return next(err);
+//     }
+//   }
+// );
+
+// using S3
 app.post(
   "/api/register",
   upload.single("profileImage"),
-  errorHandler,
   async (req, res, next) => {
     const { firstname, lastname, email, password } = req.body;
-    const profileImage = req.file ? `/uploads/${req.file.filename}` : null; // Files are not found in req.body
+    
+    // Profile image URL now will be directly from S3
+    const profileImage = req.file ? req.file.location : null;
 
     try {
       const userFromDatabase = await pool.query(
@@ -51,10 +89,7 @@ app.post(
       );
 
       if (userFromDatabase.rows.length !== 0) {
-        const error = new Error(`User with ${email} already exists`);
-        error.name = "AlreadyExist";
-        error.status = 400;
-        return next(error);
+        return next(new Error(`User with ${email} already exists`));
       }
 
       const salt = await bcrypt.genSalt(10);
@@ -64,9 +99,9 @@ app.post(
         'INSERT INTO "user" (firstname, lastname, email, password, profile_picture_url) VALUES ($1, $2, $3, $4, $5)',
         [firstname, lastname, email, bcryptPassword, profileImage]
       );
+      
       return res.status(201).json({ message: "New User Added" });
     } catch (err) {
-      console.log(err);
       return next(err);
     }
   }

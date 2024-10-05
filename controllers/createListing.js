@@ -1,6 +1,7 @@
 import { getClient } from "../db.js"; 
 import { createCategoryIfNotExists, createTypeIfNotExists, insertLocation, insertListingFacilities, insertPhotos } from '../services/listingService.js';
-
+import dotenv from "dotenv";
+dotenv.config();
 export const createListing = async (req, res, next) => {
   const client = await getClient();
   
@@ -43,8 +44,12 @@ export const createListing = async (req, res, next) => {
     // 5. Insert amenities (facilities)
     await insertListingFacilities(client, listingId, amenities);
 
-    // Extract uploaded photo file paths
-    const photos = req.files.map(file => `/uploads/${file.filename}`); // Generate file paths
+// stores S3 URL
+const photos = req.files.map(file => file.location); // S3 URL for each image
+
+    
+    // Extract uploaded photo using file paths 
+    // const photos = req.files.map(file => `/uploads/${file.filename}`); // Generate file paths
     // const photos = req.files; // Generate file paths with full path link i.e desktop/ we don't want this because then we can't access the photos on our app.
     console.log('photos:', photos);
     console.log('Uploaded file path:', req.files.map(file => file.path));

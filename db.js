@@ -22,7 +22,7 @@ const pool = new Pool({
 // // local database
 // const pool = new Pool({
 //   user: "postgres",
-//   password: "@Nona1982Attack", 
+//   password: "findpassword", 
 //   database: "elaminestate",
 //   host: "localhost",  
 //   port: 5432
