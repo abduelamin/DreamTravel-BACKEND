@@ -6,7 +6,8 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import cookieParser from "cookie-parser";
 import path from "path";
-import upload, { __dirname } from "./middleware/fileUpload.js";
+import upload from "./middleware/fileUpload.js"; // this is ofr using S3
+// import upload, { __dirname } from "./middleware/fileUpload.js"; // this if using local upload
 import dotenv from "dotenv";
 import { errorHandler } from "./middleware/erroHandler.js";
 import { createListing } from "./controllers/createListing.js";
@@ -30,8 +31,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 // Serve static files (profile images)
-app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
-console.log(path.join(__dirname, "../uploads"));
+// app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
+// console.log(path.join(__dirname, "../uploads"));
 
 // routes
 
