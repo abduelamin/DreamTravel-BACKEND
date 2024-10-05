@@ -79,8 +79,6 @@ app.post(
   upload.single("profileImage"),
   async (req, res, next) => {
     const { firstname, lastname, email, password } = req.body;
-    
-    // Profile image URL now will be directly from S3
     const profileImage = req.file ? req.file.location : null;
 
     try {
