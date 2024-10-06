@@ -79,11 +79,10 @@ app.post(
   upload.single("profileImage"),
   errorHandler,
   async (req, res, next) => {
-    console.log("LogUploadedFile:", req.file);
     const { firstname, lastname, email, password } = req.body;
     const profileImage = req.file ? req.file.location : null;
 
-    console.log("checkifImagewasuploaded:", req.file);
+   
 
     try {
       const userFromDatabase = await pool.query(

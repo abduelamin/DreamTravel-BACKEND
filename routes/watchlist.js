@@ -34,6 +34,7 @@ router.get("/wishlist/:userId", async (req, res) => {
              GROUP BY listings.id`,
       [userId]
     );
+    console.log("wishlist Backend result:", result.rows);
     res.status(200).json(result.rows);
   } catch (error) {
     console.error(error);
